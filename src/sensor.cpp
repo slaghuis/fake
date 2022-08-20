@@ -32,6 +32,7 @@ class FakeSensor : public rclcpp::Node
     FakeSensor()
     : Node("fake_sensor")
     {
+      publisher_ = this->create_publisher<sensor_msgs::msg::Range>("vl53l1x/range", 10);
       subscription_ = this->create_subscription<nav_msgs::msg::Odometry>(
       "drone/odom", 10, std::bind(&FakeSensor::odom_callback, this, _1));
     }
