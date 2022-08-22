@@ -42,14 +42,14 @@ class FakeSensor : public rclcpp::Node
     {
       rclcpp::Time now = this->get_clock()->now();
       auto message = sensor_msgs::msg::Range();
-      message.header.frame_id = "vl53l1x";
+      message.header.frame_id = "base_down";
       message.header.stamp = now;
       message.radiation_type = sensor_msgs::msg::Range::INFRARED;
       message.field_of_view = 0.47;              // Typically 27 degrees or 0,471239 radians
       message.min_range = 0.14;                  // 140 mm.  (It is actully much less, but this makes sense in the context
       message.max_range = 3.00;                  // 3.6 m. in the dark, down to 73cm in bright light
 
-      message.range = (float) msg->pose.pose.position.z; // range in meters      
+      message.range =  0.05 - (float) msg->pose.pose.position.z; // range in meters.  Offset of sensor above ground plus altitude in NED frame     
       
       publisher_->publish(message);
       
